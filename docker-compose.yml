@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: conf/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "bloguser", "-d", "blogdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn --reload conf.wsgi:application --bind 0.0.0.0:8300"
+    volumes:
+      - .:/app
+    env_file: conf/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8300:8300"
+
+volumes:
+  pgdata:
