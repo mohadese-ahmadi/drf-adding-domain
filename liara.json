@@ -1,0 +1,8 @@
+{
+  "app": "domain-danajo",
+  "port": 8300,
+  "build": {
+    "location": "germany"
+  },
+  "disks": []
+}
