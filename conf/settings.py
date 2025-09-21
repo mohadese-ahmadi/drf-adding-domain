@@ -9,27 +9,25 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-import environ
+from decouple import config
 import os
 from pathlib import Path
 import dj_database_url 
 
-env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, 'conf/.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
-SITE_URL = env('SITE_URL', default='http://localhost:8080')
+ALLOWED_HOSTS = config.list('ALLOWED_HOSTS', default=[])
+SITE_URL = config('SITE_URL', default='http://localhost:8080')
 
 # Application definition
 
@@ -84,16 +82,19 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
-    'default': dj_database_url.config(default=env('DATABASE_URL'))
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': env('POSTGRES_DB'),
-        # 'USER': env('POSTGRES_USER'),
-        # 'PASSWORD': env('POSTGRES_PASSWORD'),
-        # 'HOST': env('POSTGRES_HOST', default='db'),
-        # 'PORT': env('POSTGRES_PORT', default='5432'),
+    'default': dj_database_url.config(default=config('DATABASE_URL', default='postgres://user:pass@localhost:5432/dbname'))
 }
+
+# DATABASES = {
+#     'default': dj_database_url.config(default=env('DATABASE_URL'))
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env('POSTGRES_DB'),
+#         'USER': env('POSTGRES_USER'),
+#         'PASSWORD': env('POSTGRES_PASSWORD'),
+#         'HOST': env('POSTGRES_HOST', default='db'),
+#         'PORT': env('POSTGRES_PORT', default='5432'),
+# }
 
 
 # Password validation
