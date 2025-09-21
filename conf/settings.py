@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # third-party apps
     'rest_framework',
     'drf_spectacular',
+    'django_filters',
 
     # local apps
     'domains',
@@ -141,6 +142,11 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 3,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
 }
 
 SPECTACULAR_SETTINGS = {
