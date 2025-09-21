@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = config.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='')
 SITE_URL = config('SITE_URL', default='http://localhost:8080')
 
 # Application definition
