@@ -15,3 +15,4 @@ class DomainSerializer(serializers.ModelSerializer):
         )
         if not pattern.fullmatch(value):
             raise serializers.ValidationError('Enter a valid domain for example www.google.com')
+        return value
