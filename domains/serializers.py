@@ -1,12 +1,12 @@
 import re
 from rest_framework import serializers
 from .models import Domain
-
+from django.contrib import sitemaps
 class DomainSerializer(serializers.ModelSerializer):
     class Meta:
         model=Domain
-        fields=['domain', 'isActive', 'status', 'createdDate']
-        read_only_fields=['createdDate']
+        fields=['id','domain', 'isActive', 'status', 'createdDate']
+        read_only_fields=['id', 'createdDate']
         
     def validate_domain(self, value):
         pattern=re.compile(
